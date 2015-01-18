@@ -3,6 +3,9 @@ package pl.mt.lokalizowanie;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.facebook.AppEventsLogger;
+import com.facebook.LoginActivity;
+
 import pl.mt.lokalizowanie.fragments.FacebookLoginFragment;
 
 
@@ -25,9 +28,25 @@ public class StartActivity extends FragmentActivity {
             // Or set the fragment from restored state info
             facebookLoginFragment = (FacebookLoginFragment) getSupportFragmentManager()
                     .findFragmentById(android.R.id.content);
+
         }
 
-
         Utils.printFacebookHash(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 }

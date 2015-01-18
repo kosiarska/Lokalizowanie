@@ -38,6 +38,11 @@
         <meta-data android:name="com.crashlytics.ApiKey" android:value="c63e8f0427c86d5c50824d0c3695cb803ba509e1"/>
 
         <service android:name=".BackgroundGeocoder" android:exported="false"/>
+
+        <activity android:name="com.facebook.LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
     </application>
 
 </manifest>
