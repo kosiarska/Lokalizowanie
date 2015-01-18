@@ -4,7 +4,6 @@ package pl.mt.lokalizowanie.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,24 @@ import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import pl.mt.lokalizowanie.MapsActivity;
 import pl.mt.lokalizowanie.R;
+import timber.log.Timber;
 
 public class FacebookLoginFragment extends Fragment {
 
     private static final String TAG = FacebookLoginFragment.class.getSimpleName();
     private UiLifecycleHelper uiHelper;
 
+    @InjectView(R.id.authButton)
+    LoginButton authButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_facebook_login, container, false);
-        LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+        ButterKnife.inject(this, view);
         authButton.setFragment(this);
         authButton.setPublishPermissions(Arrays.asList("publish_actions"));
         return view;
@@ -81,10 +86,10 @@ public class FacebookLoginFragment extends Fragment {
     @SuppressWarnings("unused")
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
-            Log.i(TAG, "Logged in...");
+            Timber.i(TAG, "Logged in...");
             startActivity(new Intent(getActivity(), MapsActivity.class));
         } else if (state.isClosed()) {
-            Log.i(TAG, "Logged out...");
+            Timber.i(TAG, "Logged out...");
         }
     }
 

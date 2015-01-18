@@ -9,13 +9,12 @@ import pl.mt.lokalizowanie.fragments.FacebookLoginFragment;
 
 public class StartActivity extends FragmentActivity {
 
-    private FacebookLoginFragment facebookLoginFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook_login);
 
+        FacebookLoginFragment facebookLoginFragment;
         if (savedInstanceState == null) {
             // Add the fragment on initial activity setup
             facebookLoginFragment = new FacebookLoginFragment();
