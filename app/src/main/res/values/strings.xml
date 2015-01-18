@@ -15,5 +15,11 @@
     <string name="app_id">590179544417168</string>
     <string name="my_location">My location</string>
     <string name="loading">Please wait a moment</string>
+    <string name="something_went_wrong_message">Something went wrong!</string>
+    <string name="something_went_wrong_title">Oops...</string>
+    <string name="publish_cancelled">Publish cancelled</string>
+    <string name="location_shared">Location shared</string>
+    <string name="good_job">Good job!</string>
+    <string name="location_format">I\'m currently at: %s</string>
 
 </resources>

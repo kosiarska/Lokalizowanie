@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.ResultReceiver;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
@@ -38,7 +39,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             String address = resultData.getString(getString(R.string.address_result));
             if (!TextUtils.isEmpty(address)) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, new FacebookShareFragment()).commit();
+                Bundle arguments = new Bundle();
+                arguments.putString(getString(R.string.address_result), address);
+                Fragment fragment = new FacebookShareFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }
         }
     };
@@ -110,6 +115,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     @OnClick(R.id.share_location)
     protected void shareLocation() {
         if (location == null) {
+            if (sweetAlertDialog.isShowing()) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
             sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
             sweetAlertDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.dialog_color));
             sweetAlertDialog.setTitleText(getString(R.string.loading));

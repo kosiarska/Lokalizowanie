@@ -6,15 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.facebook.FacebookException;
-import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.LoginButton;
-import com.facebook.widget.WebDialog;
 
 import java.util.Arrays;
 
@@ -40,12 +35,23 @@ public class FacebookLoginFragment extends FacebookFragment {
         return view;
     }
 
+    boolean mapStarted = false;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapStarted = false;
+    }
+
     @SuppressWarnings("unused")
     @Override
     protected void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
             Timber.i(TAG, "Logged in...");
-            startActivity(new Intent(getActivity(), MapsActivity.class));
+            if(!mapStarted) {
+                mapStarted = true;
+                startActivity(new Intent(getActivity(), MapsActivity.class));
+            }
         } else if (state.isClosed()) {
             Timber.i(TAG, "Logged out...");
         }

@@ -2,7 +2,6 @@ package pl.mt.lokalizowanie.fragments;
 
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
@@ -11,8 +10,12 @@ import com.facebook.SessionState;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import pl.mt.lokalizowanie.R;
+
 public class FacebookShareFragment extends FacebookFragment {
 
+    SweetAlertDialog sweetAlertDialog;
 
     @Override
     public void onResume() {
@@ -20,23 +23,36 @@ public class FacebookShareFragment extends FacebookFragment {
         postLocationToFacebook();
     }
 
-    protected void postLocationToFacebook() {
-        if (FacebookDialog.canPresentShareDialog(getActivity(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
-            // Publish the post using the Share Dialog
-            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity()).setLink("https://developers.facebook.com/android").build();
-            uiHelper.trackPendingDialogCall(shareDialog.present());
-
-        } else {
-            // Fallback. For example, publish the post using the Feed Dialog
-            publishFeedDialog();
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (sweetAlertDialog != null) {
+            sweetAlertDialog.cancel();
         }
     }
 
-    private void publishFeedDialog() {
+
+    protected void postLocationToFacebook() {
+        String address = getArguments().getString(getResources().getString(R.string.address_result));
+        address = String.format(getResources().getString(R.string.location_format), address);
+        if (FacebookDialog.canPresentShareDialog(getActivity(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+            // Publish the post using the Share Dialog
+
+            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity()).setName("Facebook SDK for Android")
+                    .setLink("https://developers.facebook.com/android").setPicture("https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png").setCaption("Build great social apps and get more installs.").setDescription(address).build();
+            uiHelper.trackPendingDialogCall(shareDialog.present());
+
+        } else {
+            //Fallback. For example, publish the post using the Feed Dialog
+            publishFeedDialog(address);
+        }
+    }
+
+    private void publishFeedDialog(String address) {
         Bundle params = new Bundle();
         params.putString("name", "Facebook SDK for Android");
         params.putString("caption", "Build great social apps and get more installs.");
-        params.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
+        params.putString("description", address);
         params.putString("link", "https://developers.facebook.com/android");
         params.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
 
@@ -53,22 +69,47 @@ public class FacebookShareFragment extends FacebookFragment {
                             // and the post Id.
                             final String postId = values.getString("post_id");
                             if (postId != null) {
-                                Toast.makeText(getActivity(), "Posted story, id: " + postId, Toast.LENGTH_SHORT).show();
+                                successMessage();
                             } else {
                                 // User clicked the Cancel button
-                                Toast.makeText(getActivity().getApplicationContext(), "Publish cancelled", Toast.LENGTH_SHORT).show();
+                                errorMessage(getResources().getString(R.string.publish_cancelled));
                             }
                         } else if (error instanceof FacebookOperationCanceledException) {
                             // User clicked the "x" button
-                            Toast.makeText(getActivity().getApplicationContext(), "Publish cancelled", Toast.LENGTH_SHORT).show();
+                            errorMessage(getResources().getString(R.string.publish_cancelled));
                         } else {
                             // Generic, ex: network error
-                            Toast.makeText(getActivity().getApplicationContext(), "Error posting story", Toast.LENGTH_SHORT).show();
+                            errorMessage(getResources().getString(R.string.something_went_wrong_message));
                         }
                     }
                 })
                 .build();
         feedDialog.show();
+    }
+
+    private void successMessage() {
+        sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(getResources().getString(R.string.good_job))
+                .setContentText(getResources().getString(R.string.location_shared)).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(FacebookShareFragment.this).commit();
+
+                    }
+                });
+        sweetAlertDialog.show();
+    }
+
+    private void errorMessage(String message) {
+        sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getResources().getString(R.string.something_went_wrong_title))
+                .setContentText(message).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(FacebookShareFragment.this).commit();
+                    }
+                });
+        sweetAlertDialog.show();
     }
 
     @Override

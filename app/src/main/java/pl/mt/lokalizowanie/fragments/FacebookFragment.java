@@ -16,6 +16,7 @@ public abstract class FacebookFragment extends Fragment {
 
     protected UiLifecycleHelper uiHelper;
 
+
     protected abstract void onSessionStateChange(Session session, SessionState state, Exception exception);
 
     private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -34,7 +35,6 @@ public abstract class FacebookFragment extends Fragment {
         uiHelper.onCreate(savedInstanceState);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -42,9 +42,11 @@ public abstract class FacebookFragment extends Fragment {
         // session is not null, the session state change notification
         // may not be triggered. Trigger it if it's open/closed.
         Session session = Session.getActiveSession();
+
         if (session != null && (session.isOpened() || session.isClosed())) {
             onSessionStateChange(session, session.getState(), null);
         }
+
         uiHelper.onResume();
     }
 
