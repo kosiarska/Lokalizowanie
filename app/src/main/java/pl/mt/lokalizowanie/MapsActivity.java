@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.os.ResultReceiver;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.mt.lokalizowanie.fragments.FacebookShareFragment;
 
 public class MapsActivity extends FragmentActivity implements LocationListener {
 
@@ -32,18 +34,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     private ResultReceiver addressResultReceiver = new ResultReceiver(new Handler(Looper.getMainLooper())) {
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
-            //todo : add facebook share logic
+            String address = resultData.getString(getString(R.string.address_result));
+            if (!TextUtils.isEmpty(address)) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new FacebookShareFragment()).commit();
+            }
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
         ButterKnife.inject(this);
-        setUpMapIfNeeded();
 
+        setUpMapIfNeeded();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
@@ -148,4 +152,5 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
             dialog.show();
         }
     }
+
 }

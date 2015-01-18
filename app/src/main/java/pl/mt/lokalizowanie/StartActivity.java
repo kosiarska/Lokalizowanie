@@ -12,7 +12,7 @@ public class StartActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facebook_login);
+        setContentView(R.layout.activity_facebook);
 
         FacebookLoginFragment facebookLoginFragment;
         if (savedInstanceState == null) {

@@ -28,7 +28,7 @@ public class BackgroundGeocoder extends IntentService {
             if (!addresses.isEmpty()) {
                 Bundle bundle = new Bundle();
                 try {
-                    bundle.putString("Address", addresses.get(0).getAddressLine(0));
+                    bundle.putString(getString(R.string.address_result), addresses.get(0).getAddressLine(0));
                 } catch (IllegalArgumentException ex) {
                     ex.printStackTrace();
                 }
