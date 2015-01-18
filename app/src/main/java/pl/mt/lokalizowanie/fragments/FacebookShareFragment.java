@@ -13,6 +13,13 @@ import com.facebook.widget.WebDialog;
 
 public class FacebookShareFragment extends FacebookFragment {
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        postLocationToFacebook();
+    }
+
     protected void postLocationToFacebook() {
         if (FacebookDialog.canPresentShareDialog(getActivity(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
             // Publish the post using the Share Dialog

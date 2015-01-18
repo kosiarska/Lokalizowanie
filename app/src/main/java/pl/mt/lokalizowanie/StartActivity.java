@@ -1,5 +1,6 @@
 package pl.mt.lokalizowanie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -30,14 +31,12 @@ public class StartActivity extends FragmentActivity {
                     .findFragmentById(android.R.id.content);
 
         }
-
         Utils.printFacebookHash(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
     }
@@ -45,7 +44,6 @@ public class StartActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }

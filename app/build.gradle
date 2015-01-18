@@ -43,4 +43,5 @@ dependencies {
     compile 'com.jakewharton.timber:timber:2.5.0'
     compile 'com.crashlytics.android:crashlytics:1.1.13'
     compile 'com.github.eluleci:flatui:3.0.0'
+    compile 'cn.pedant.sweetalert:library:1.3'
 }
