@@ -1,8 +1,7 @@
 package pl.mt.lokalizowanie;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
+import android.support.v4.app.FragmentActivity;
 
 import pl.mt.lokalizowanie.fragments.FacebookLoginFragment;
 
@@ -28,5 +27,7 @@ public class StartActivity extends FragmentActivity {
                     .findFragmentById(android.R.id.content);
         }
 
+
+        Utils.printFacebookHash(this);
     }
 }
