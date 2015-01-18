@@ -6,5 +6,10 @@
     <string name="title_activity_facebook_login">FacebookLoginActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="gps_network_not_enabled">Turn on location settings.</string>
+    <string name="open_location_settings">Open settings</string>
+    <string name="Cancel">Anuluj</string>
+    <string name="location_key">Location_key</string>
+    <string name="result_receiver_key">result_receiver_key</string>
 
 </resources>

@@ -41,6 +41,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:3.22.0'
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.jakewharton.timber:timber:2.5.0'
-    compile 'com.crashlytics.android:crashlytics:1.+'
-
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
+    compile 'com.github.eluleci:flatui:3.0.0'
 }

@@ -2,6 +2,7 @@ package pl.mt.lokalizowanie;
 
 import android.app.Application;
 
+import com.cengalabs.flatui.FlatUI;
 import com.crashlytics.android.Crashlytics;
 
 import timber.log.Timber;
@@ -13,12 +14,15 @@ public class LocalizationApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Crashlytics.start(this);
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
             Timber.plant(new CrashReportingTree());
         }
+
+        FlatUI.initDefaultValues(this);
+        FlatUI.setDefaultTheme(FlatUI.SEA);
     }
 
     /**

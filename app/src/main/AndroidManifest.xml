@@ -36,6 +36,8 @@
             </intent-filter>
         </activity>
         <meta-data android:name="com.crashlytics.ApiKey" android:value="c63e8f0427c86d5c50824d0c3695cb803ba509e1"/>
+
+        <service android:name=".BackgroundGeocoder" android:exported="false"/>
     </application>
 
 </manifest>
